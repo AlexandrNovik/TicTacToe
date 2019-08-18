@@ -48,6 +48,7 @@ data class Board(private val size: Int = 3) {
     }
 
     private fun getSessionStatus(): SessionStatus {
+
         return SessionStatus()
     }
 
@@ -63,6 +64,9 @@ data class Board(private val size: Int = 3) {
 //        Line(arrayListOf(Position(0, 2), Position(1, 2), Position(2, 2))),   // top line
 //        Line(arrayListOf(Position(0, 1), Position(1, 1), Position(2, 1))),   // middle line
 //        Line(arrayListOf(Position(0, 0), Position(1, 0), Position(2, 0))),   // bottom line
+//        Line(arrayListOf(Position(0, 0), Position(0, 1), Position(0, 2))),   // left row
+//        Line(arrayListOf(Position(1, 0), Position(1, 1), Position(1, 2))),   // middle row
+//        Line(arrayListOf(Position(2, 0), Position(2, 1), Position(2, 2))),   // right row
 //        Line(arrayListOf(Position(0, 2), Position(1, 1), Position(2, 0))),   // diagonal
 //        Line(arrayListOf(Position(2, 2), Position(1, 1), Position(0, 0)))    // opposite diagonal
 //    )
