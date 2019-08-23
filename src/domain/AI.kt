@@ -3,9 +3,8 @@ package domain
 import domain.entity.Position
 import domain.entity.Seed
 import domain.entity.reverse
-import javafx.geometry.Pos
 
-class AI {
+object AI {
     private var currentSeed: Seed = Seed.Empty
     private var oppositeSeed: Seed = Seed.Empty
     fun findBestPosition(board: Board, seed: Seed): Position {
@@ -18,10 +17,12 @@ class AI {
         var bestScore = 0
         var bestPosition = Position(0, 0)
 
-        if (board.hasEmptyPositions()) {
-            board.getEmptyPositions().forEachIndexed { index, position ->
-                val copiedBoard = Board(size = board.size, gameTable = board.gameTable.toMutableMap())
-                // TODO: WTF hash tag wrong copy
+        if (board.getStatus().isFinished) {
+            bestScore = calculate(board)
+        } else {
+            for (position in board.getEmptyPositions()) {
+                if (board.getEmptyPositions().isEmpty()) return Score(bestPosition, bestScore)
+                val copiedBoard = Board(board.size, board.gameTable.toMutableMap())
                 copiedBoard.setPosition(position, seed)
                 if (seed == currentSeed) {
                     val score = findMinMax(copiedBoard, oppositeSeed)
@@ -37,8 +38,6 @@ class AI {
                     }
                 }
             }
-        } else {
-            bestScore = calculate(board)
         }
         return Score(bestPosition, bestScore)
     }

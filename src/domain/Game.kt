@@ -9,13 +9,14 @@ class Game(
     private val user: Player = Player.User,
     size: Int = 3
 ) {
-    private val board = Board(size, hashMapOf())
+    private var board = Board(size, hashMapOf()).apply { initGameTable() }
 
     fun playAIWithAI() {
         var seed : Seed = Seed.O
-        while (board.hasEmptyPositions()) {
+        while (board.getStatus().isFinished.not()) {
             seed = seed.reverse()
             val pos = (ai as Player.AI).findBestMove(board, seed)
+            // TODO: always firs position issue
             board.setPosition(pos, seed)
             board.printInConsole()
         }

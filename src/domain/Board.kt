@@ -16,22 +16,19 @@ import domain.entity.print
    *         X | 0 | 1 | 2 |
    *
    * */
-data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
-
-    init {
-        initGameTable()
-    }
-
+class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
     fun setPosition(position: Position, seed: Seed) {
         gameTable[position] = seed
     }
 
     fun getEmptyPositions() = gameTable.toMap().filter { it.value == Seed.Empty }.toList().map { it.first }
-    fun hasEmptyPositions() = gameTable.toMap().filter { it.value == Seed.Empty }.isNotEmpty()
 
     fun getWinner(): Seed {
         return getSessionStatus().winner
     }
+
+    fun getStatus(): SessionStatus = getSessionStatus()
+
 
     fun printInConsole2() {
         println(
@@ -45,6 +42,7 @@ data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
         """.trimIndent()
         )
     }
+
     fun printInConsole() {
         println(
             """ 
@@ -60,7 +58,8 @@ data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
     private fun getSessionStatus(): SessionStatus {
         lines.forEach {
             val first = gameTable[it.positions.first()]
-            val win = it.positions.fold(true) { acc, pos -> gameTable[pos] == first && acc }
+            val win = it.positions
+                .fold(true) { acc, pos -> gameTable[pos] == first && gameTable[pos] != Seed.Empty && acc }
             if (win) {
                 val winSeed = gameTable[it.positions.first()] ?: Seed.Empty
                 return SessionStatus(isFinished = true, winner = winSeed)
@@ -69,7 +68,7 @@ data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
         return SessionStatus()
     }
 
-    private fun initGameTable() {
+    fun initGameTable() {
         (0 until size).forEach { external ->
             (0 until size).forEach { internal ->
                 gameTable[Position(external, internal)] = Seed.Empty

@@ -13,5 +13,5 @@ fun Seed.reverse(): Seed {
 
 fun Seed.print(): String {
     if (this is Seed.Empty) return " "
-    return if (this is Seed.O) "X" else "0"
+    return if (this is Seed.O) "0" else "X"
 }
