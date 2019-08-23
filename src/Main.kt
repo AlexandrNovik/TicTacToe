@@ -1,6 +1,6 @@
-import domain.Board
+import domain.Game
 
 fun main() {
-    val board = Board()
-    board.printInConsole()
+    val game = Game()
+    game.playAIWithAI()
 }

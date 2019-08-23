@@ -1,21 +1,23 @@
 package domain
 
 import domain.entity.Player
+import domain.entity.Seed
+import domain.entity.reverse
 
 class Game(
-    private val player1: Player = Player.AI,
-    private val player2: Player = Player.AI,
-    private val size: Int = 3
+    private val ai: Player = Player.AI(Seed.O),
+    private val user: Player = Player.User,
+    size: Int = 3
 ) {
-    init {
-        initGame()
-    }
+    private val board = Board(size, hashMapOf())
 
-    private fun initGame() {
-        val board = Board(size)
-    }
-
-    fun playAI() {
-
+    fun playAIWithAI() {
+        var seed : Seed = Seed.O
+        while (board.hasEmptyPositions()) {
+            seed = seed.reverse()
+            val pos = (ai as Player.AI).findBestMove(board, seed)
+            board.setPosition(pos, seed)
+            board.printInConsole()
+        }
     }
 }
