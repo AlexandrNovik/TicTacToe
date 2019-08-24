@@ -13,7 +13,6 @@ object AI {
         return findMinMax(board, seed).position
     }
 
-    // TODO: find not best move
     private fun findMinMax(board: Board, seed: Seed): Score {
         var bestScore = if (seed == currentSeed) Int.MIN_VALUE else Int.MAX_VALUE
         var bestPosition = Position(0, 0)
@@ -42,6 +41,7 @@ object AI {
         return Score(bestPosition, bestScore)
     }
 
+    // TODO: implement evristic for the lines
     private fun calculate(board: Board): Int {
         if (board.getWinner() == currentSeed) return 100
         if (board.getWinner() == oppositeSeed) return -100
