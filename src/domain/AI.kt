@@ -4,7 +4,7 @@ import domain.entity.Position
 import domain.entity.Seed
 import domain.entity.reverse
 
-object AI {
+class AI {
     private var currentSeed: Seed = Seed.Empty
     private var oppositeSeed: Seed = Seed.Empty
     fun findBestPosition(board: Board, seed: Seed): Position {
@@ -41,7 +41,7 @@ object AI {
         return Score(bestPosition, bestScore)
     }
 
-    private fun calculate(board: Board): Int {
+    private fun calculateSimple(board: Board): Int {
         if (board.getWinner() == currentSeed) return 100
         if (board.getWinner() == oppositeSeed) return -100
         return 0
