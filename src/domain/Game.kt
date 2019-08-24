@@ -16,7 +16,6 @@ class Game(
         while (board.getStatus().isFinished.not()) {
             seed = seed.reverse()
             val pos = (ai as Player.AI).findBestMove(board, seed)
-            // TODO: always firs position issue
             board.setPosition(pos, seed)
             board.printInConsole()
         }

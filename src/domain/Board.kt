@@ -16,9 +16,12 @@ import domain.entity.print
    *         X | 0 | 1 | 2 |
    *
    * */
-class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
+data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
     fun setPosition(position: Position, seed: Seed) {
-        gameTable[position] = seed
+        val tableSeed = gameTable[position]
+        if (tableSeed == Seed.Empty && tableSeed != seed) {
+            gameTable[position] = seed
+        }
     }
 
     fun getEmptyPositions() = gameTable.toMap().filter { it.value == Seed.Empty }.toList().map { it.first }

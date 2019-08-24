@@ -13,29 +13,28 @@ object AI {
         return findMinMax(board, seed).position
     }
 
+    // TODO: find not best move
     private fun findMinMax(board: Board, seed: Seed): Score {
-        var bestScore = 0
+        var bestScore = if (seed == currentSeed) Int.MIN_VALUE else Int.MAX_VALUE
         var bestPosition = Position(0, 0)
 
         if (board.getStatus().isFinished) {
             bestScore = calculate(board)
         } else {
-            for (position in board.getEmptyPositions()) {
-                if (board.getEmptyPositions().isEmpty()) return Score(bestPosition, bestScore)
-                val copiedBoard = Board(board.size, board.gameTable.toMutableMap())
-                copiedBoard.setPosition(position, seed)
-                if (seed == currentSeed) {
-                    val score = findMinMax(copiedBoard, oppositeSeed)
-                    if (score.value > bestScore) {
-                        bestScore = score.value
-                        bestPosition = position
-                    }
-                } else {
-                    val score = findMinMax(copiedBoard, currentSeed)
-                    if (score.value < bestScore) {
-                        bestScore = score.value
-                        bestPosition = position
-                    }
+            val position = board.getEmptyPositions().first()
+            val copiedBoard = board.copy(gameTable = board.gameTable.toMutableMap())
+            copiedBoard.setPosition(position, seed)
+            if (seed == currentSeed) {
+                val value = findMinMax(copiedBoard, oppositeSeed).value
+                if (value > bestScore) {
+                    bestScore = value
+                    bestPosition = position
+                }
+            } else {
+                val value = findMinMax(copiedBoard, currentSeed).value
+                if (value < bestScore) {
+                    bestScore = value
+                    bestPosition = position
                 }
             }
         }
