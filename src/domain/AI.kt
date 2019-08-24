@@ -10,7 +10,7 @@ class AI {
     fun findBestPosition(board: Board, seed: Seed): Position {
         currentSeed = seed
         oppositeSeed = seed.reverse()
-        return findMinMax(board, seed, 2).position
+        return findMinMax(board, seed, 3).position
     }
 
     private fun findMinMax(board: Board, seed: Seed, deep: Int): Score {

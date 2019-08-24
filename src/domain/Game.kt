@@ -4,20 +4,19 @@ import domain.entity.Player
 import domain.entity.Seed
 import domain.entity.reverse
 
-class Game(
-    private val ai: Player = Player.AI(Seed.O),
-    private val user: Player = Player.User,
-    size: Int = 3
-) {
+class Game(size: Int = 3) {
     private var board = Board(size, hashMapOf()).apply { initGameTable() }
 
     fun playAIWithAI() {
-        var seed : Seed = Seed.O
+        val startTime = System.currentTimeMillis()
+        val ai = Player.AI(Seed.O)
+        var seed: Seed = Seed.O
         while (board.getStatus().isFinished.not()) {
             seed = seed.reverse()
-            val pos = (ai as Player.AI).findBestMove(board, seed)
+            val pos = ai.findBestMove(board, seed)
             board.setPosition(pos, seed)
             board.printInConsole()
         }
+        println("Time: ${System.currentTimeMillis() - startTime}ms")
     }
 }
