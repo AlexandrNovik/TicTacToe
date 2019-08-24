@@ -21,20 +21,21 @@ object AI {
         if (board.getStatus().isFinished) {
             bestScore = calculate(board)
         } else {
-            val position = board.getEmptyPositions().first()
-            val copiedBoard = board.copy(gameTable = board.gameTable.toMutableMap())
-            copiedBoard.setPosition(position, seed)
-            if (seed == currentSeed) {
-                val value = findMinMax(copiedBoard, oppositeSeed).value
-                if (value > bestScore) {
-                    bestScore = value
-                    bestPosition = position
-                }
-            } else {
-                val value = findMinMax(copiedBoard, currentSeed).value
-                if (value < bestScore) {
-                    bestScore = value
-                    bestPosition = position
+            for (position in board.getEmptyPositions()) {
+                val copiedBoard = board.copy(gameTable = board.gameTable.toMutableMap())
+                copiedBoard.setPosition(position, seed)
+                if (seed == currentSeed) {
+                    val value = findMinMax(copiedBoard, oppositeSeed).value
+                    if (value > bestScore) {
+                        bestScore = value
+                        bestPosition = position
+                    }
+                } else {
+                    val value = findMinMax(copiedBoard, currentSeed).value
+                    if (value < bestScore) {
+                        bestScore = value
+                        bestPosition = position
+                    }
                 }
             }
         }

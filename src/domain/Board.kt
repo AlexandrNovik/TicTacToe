@@ -68,7 +68,7 @@ data class Board(val size: Int = 3, val gameTable: MutableMap<Position, Seed>) {
                 return SessionStatus(isFinished = true, winner = winSeed)
             }
         }
-        return SessionStatus()
+        return SessionStatus(getEmptyPositions().isEmpty(), Seed.Empty)
     }
 
     fun initGameTable() {
